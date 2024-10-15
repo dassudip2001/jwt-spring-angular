@@ -1,3 +1,16 @@
 spring:
   application:
     name: spring-boot-actuator
+  profiles:
+    active: dev # This is the active profile
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+springdoc:
+  default-produces-media-type: application/json
+server:
+  port: 8083
+  servlet:
+    context-path: /api/v1
