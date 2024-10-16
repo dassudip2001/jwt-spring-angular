@@ -20,6 +20,9 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
 
+    private JwtFilter authenticationFilter;
+    private final AuthenticationProvider authenticationProvider;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -39,11 +42,10 @@ public class SecurityConfig {
                         "/swagger-ui.html")
                         .permitAll()
                         .anyRequest()
-                        .authenticated()
-                        .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                        .authenticationProvider(authenticationProvider)
-                        .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class));
-        return http.build();
+                        .authenticated())
+                .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authenticationProvider(authenticationProvider)
+                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
 }
